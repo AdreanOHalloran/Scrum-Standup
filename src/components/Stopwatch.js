@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { useInterval } from '../util/util';
 
-export const Stopwatch = () => {
-  const [timerRunning, setTimerIsRunning] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState(0);
+export const Stopwatch = ({
+  handleSetElapsedTime,
+  elapsedTime,
+  timerRunning,
+  handleResetElapsedTime,
+  handleTimerChange,
+  pauseTimer,
+  handleResetTM,
+}) => {
+  // const [elapsedTime, setElapsedTime] = useState(0);
   const [milliseconds, setMilliseconds] = useState('00');
   const [seconds, setSeconds] = useState('0');
   const [minutes, setMinutes] = useState('0');
 
   useInterval(
     () => {
-      setElapsedTime((prevTime) => prevTime + 1);
+      handleSetElapsedTime();
       const elapsedTimeString = elapsedTime.toString();
       setMilliseconds(elapsedTimeString.slice(-2));
       let diffInHrs = elapsedTime / 360000;
@@ -26,11 +33,12 @@ export const Stopwatch = () => {
   );
 
   const handleRestart = () => {
-    setElapsedTime(0);
+    handleResetElapsedTime();
     setMilliseconds('00');
     setSeconds('0');
     setMinutes('0');
-    setTimerIsRunning(false);
+    pauseTimer();
+    handleResetTM();
   };
 
   return (
@@ -41,11 +49,7 @@ export const Stopwatch = () => {
         </h1>
         <span className="pl-2">{milliseconds}</span>
       </div>
-      <button
-        type="button"
-        className="btn btn-primary py-1"
-        onClick={() => setTimerIsRunning((prevState) => (prevState = !prevState))}
-      >
+      <button type="button" className="btn btn-primary py-1" onClick={handleTimerChange}>
         {timerRunning ? 'Stop' : 'Start'}
       </button>
       {elapsedTime === 0 ? null : (
