@@ -18,7 +18,6 @@ export const Stopwatch = ({
   useInterval(
     () => {
       handleSetElapsedTime();
-      console.log(elapsedTime);
       const elapsedTimeString = elapsedTime.toString();
       setMilliseconds(elapsedTimeString.slice(-2));
       let diffInHrs = elapsedTime / 360000;
@@ -43,7 +42,7 @@ export const Stopwatch = ({
   };
 
   return (
-    <div className="container my-4 text-center">
+    <div className="my-4 text-center">
       <div className="mb-2">
         <h1 style={{ display: 'inline' }}>
           {minutes > 0 ? `${minutes}m` : ''} {seconds}s

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Stopwatch } from './Stopwatch';
 import { ScrumList } from './ScrumList';
+import { ScrumListControls } from './ScrumListControls';
 
 export const DailyScrumPage = () => {
   useEffect(() => {
@@ -10,7 +11,7 @@ export const DailyScrumPage = () => {
   const getTMs = async () => {
     const request = await fetch('/api/v1/teamMembers');
     const data = await request.json();
-    const TMS = data.data.map((tm) => tm.name);
+    const TMS = data.data.map((tm) => tm.name).sort();
     setTeamMembers(TMS);
   };
 
@@ -84,7 +85,7 @@ export const DailyScrumPage = () => {
   };
 
   return (
-    <div className="container">
+    <>
       <Stopwatch
         elapsedTime={elapsedTime}
         handleSetElapsedTime={handleSetElapsedTime}
@@ -99,10 +100,9 @@ export const DailyScrumPage = () => {
         handleTMClick={handleTMClick}
         TMS={teamMembers}
         activeTM={activeTM}
-        shuffleTMs={shuffleTMs}
         removeTM={handleRemoveTM}
-        getFreshList={handleGetFreshList}
       />
-    </div>
+      <ScrumListControls shuffleTMs={shuffleTMs} getFreshList={handleGetFreshList} />
+    </>
   );
 };

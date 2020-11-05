@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { LoadingSpinner } from '../UI/LoadingSpinner';
 
-export const AddRemoveForm = ({}) => {
+export const AddRemoveForm = () => {
   const [backendTMS, setBackendTMS] = useState();
   const [inputValue, setInputValue] = useState('');
 
@@ -14,13 +15,13 @@ export const AddRemoveForm = ({}) => {
     }
     fetchData();
   }, [backendTMS]);
-
   const handleDeleteTMBackend = async (id) => {
     try {
       await fetch(`/api/v1/teamMembers/${id}`, {
         method: 'DELETE',
       });
     } catch (err) {
+      // TODO: Handle Error
       console.log(err);
     }
   };
@@ -41,12 +42,13 @@ export const AddRemoveForm = ({}) => {
       setInputValue('');
       return data;
     } catch (err) {
+      // TODO: Handle Error
       console.log(err);
     }
   };
 
   return (
-    <div className="container my-4" style={{ maxWidth: '400px' }}>
+    <div className="my-4">
       <form className="input-group mb-3" onSubmit={handleAddTMBackend}>
         <input
           type="text"
@@ -65,7 +67,7 @@ export const AddRemoveForm = ({}) => {
         </div>
       </form>
       <ul className="list-group list-group-flush">
-        {backendTMS &&
+        {backendTMS ? (
           backendTMS.map((tm) => {
             return (
               <li className={`list-group-item list-group-item py-0`}>
@@ -75,10 +77,13 @@ export const AddRemoveForm = ({}) => {
                 </button>
               </li>
             );
-          })}
+          })
+        ) : (
+          <LoadingSpinner />
+        )}
       </ul>
-      <Link to="/" className="btn btn-primary">
-        Daily Scrum
+      <Link to="/" className="btn btn-primary mt-3">
+        Back
       </Link>
     </div>
   );
