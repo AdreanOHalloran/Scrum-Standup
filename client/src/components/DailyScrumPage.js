@@ -11,7 +11,7 @@ export const DailyScrumPage = () => {
   const getTMs = async () => {
     const request = await fetch('/api/v1/teamMembers');
     const data = await request.json();
-    const TMS = data.data.map((tm) => tm.name).sort();
+    const TMS = data.data.map((tm) => tm.name).sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
     setTeamMembers(TMS);
   };
 
@@ -19,7 +19,7 @@ export const DailyScrumPage = () => {
   const [activeTM, setActiveTM] = useState('');
   const [teamMembers, setTeamMembers] = useState();
   const [elapsedTime, setElapsedTime] = useState(0);
-  let prevTM;
+  const [prevTMClicked, setPrevTMClicked] = useState('');
 
   const handleTimerChange = () => {
     setTimerRunning((prev) => (prev = !prev));
@@ -27,7 +27,13 @@ export const DailyScrumPage = () => {
 
   const handleTMClick = (tm) => {
     setTimerRunning((prev) => (prev = !prev));
-    if (prevTM && prevTM === tm) {
+    if (!timerRunning && prevTMClicked === tm && activeTM === tm) {
+      setActiveTM(tm);
+    } else if (prevTMClicked && prevTMClicked === tm) {
+      setActiveTM('');
+      if (activeTM !== tm) {
+        setActiveTM(tm);
+      }
     } else if (activeTM === tm) {
       setActiveTM('');
       setTimerRunning(false);
@@ -36,7 +42,7 @@ export const DailyScrumPage = () => {
       setActiveTM(tm);
       setTimerRunning(true);
     }
-    prevTM = tm;
+    setPrevTMClicked(tm);
   };
 
   const shuffleTMs = () => {
@@ -68,7 +74,6 @@ export const DailyScrumPage = () => {
     e.stopPropagation();
     if (activeTM === tm) {
       setActiveTM('');
-      // setTimerRunning((prev) => (prev = !prev));
       setTimerRunning(false);
     }
     if (e.target.parentElement.className === 'close') {

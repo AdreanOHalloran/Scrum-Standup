@@ -5,30 +5,43 @@ import { LoadingSpinner } from '../UI/LoadingSpinner';
 export const AddRemoveForm = () => {
   const [backendTMS, setBackendTMS] = useState();
   const [inputValue, setInputValue] = useState('');
+  const [formError, setFormError] = useState(false);
 
   useEffect(() => {
-    async function fetchData() {
-      const request = await fetch('/api/v1/teamMembers');
-      const data = await request.json();
-      const TMS = data.data;
-      setBackendTMS(TMS);
-    }
     fetchData();
-  }, [backendTMS]);
+  }, []);
+
+  const fetchData = async () => {
+    const request = await fetch('/api/v1/teamMembers');
+    const data = await request.json();
+    const TMS = data.data;
+    const TMsSorted = TMS.sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      return nameA > nameB ? 1 : -1;
+    });
+    setBackendTMS(TMsSorted);
+  };
+
   const handleDeleteTMBackend = async (id) => {
     try {
       await fetch(`/api/v1/teamMembers/${id}`, {
         method: 'DELETE',
       });
+      fetchData();
     } catch (err) {
-      // TODO: Handle Error
-      console.log(err);
+      console.error(err);
     }
   };
 
   const handleAddTMBackend = async (e) => {
-    // TODO: Do a check to see if name already in backend
     e.preventDefault();
+    if (checkTMExists()) {
+      setFormError(true);
+      setInputValue('');
+      return;
+    }
+
     const config = {
       method: 'POST',
       body: JSON.stringify({ name: inputValue }),
@@ -40,11 +53,16 @@ export const AddRemoveForm = () => {
       const response = await fetch(`/api/v1/teamMembers`, config);
       const data = response.json();
       setInputValue('');
+      setFormError(false);
+      fetchData();
       return data;
     } catch (err) {
-      // TODO: Handle Error
-      console.log(err);
+      console.error(err);
     }
+  };
+
+  const checkTMExists = () => {
+    return backendTMS.some((tm) => tm.name.toLowerCase() === inputValue.toLowerCase());
   };
 
   return (
@@ -52,9 +70,8 @@ export const AddRemoveForm = () => {
       <form className="input-group mb-3" onSubmit={handleAddTMBackend}>
         <input
           type="text"
-          className="form-control"
-          placeholder="Add a TM...."
-          aria-label="Recipient's username"
+          className={`form-control ${formError ? 'is-invalid' : ''}`}
+          placeholder={`${formError ? 'Team Member Exists' : 'Add a TM....'}`}
           value={inputValue}
           onChange={(e) => {
             setInputValue(e.target.value);
@@ -70,10 +87,10 @@ export const AddRemoveForm = () => {
         {backendTMS ? (
           backendTMS.map((tm) => {
             return (
-              <li className={`list-group-item list-group-item py-0`}>
+              <li className={`list-group-item list-group-item py-0`} key={tm.name}>
                 {tm.name}
-                <button type="button" className="close" aria-label="Close" onClick={() => handleDeleteTMBackend(tm._id)}>
-                  <span aria-hidden="true">&times;</span>
+                <button type="button" className="close" onClick={() => handleDeleteTMBackend(tm._id)}>
+                  <span>&times;</span>
                 </button>
               </li>
             );

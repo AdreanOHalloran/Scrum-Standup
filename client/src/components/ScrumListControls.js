@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const ScrumListControls = ({ shuffleTMs, getFreshList }) => {
   return (
-    <div className="mt-2">
+    <div className="py-3">
       <button onClick={shuffleTMs} type="button" className="btn btn-primary">
         <i className="fa fa-random fa-lg"></i>
       </button>

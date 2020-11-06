@@ -10,7 +10,6 @@ export const Stopwatch = ({
   pauseTimer,
   handleResetTM,
 }) => {
-  // const [elapsedTime, setElapsedTime] = useState(0);
   const [milliseconds, setMilliseconds] = useState('00');
   const [seconds, setSeconds] = useState('0');
   const [minutes, setMinutes] = useState('0');
@@ -42,7 +41,7 @@ export const Stopwatch = ({
   };
 
   return (
-    <div className="my-4 text-center">
+    <div className="mb-3 mt-1 text-center">
       <div className="mb-2">
         <h1 style={{ display: 'inline' }}>
           {minutes > 0 ? `${minutes}m` : ''} {seconds}s
