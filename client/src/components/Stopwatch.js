@@ -46,7 +46,9 @@ export const Stopwatch = ({
         <h1 style={{ display: 'inline' }}>
           {minutes > 0 ? `${minutes}m` : ''} {seconds}s
         </h1>
-        <span className="pl-2">{milliseconds}</span>
+        <span className="pl-1" style={{ display: 'inline-block', maxWidth: '30px', minWidth: '30px' }}>
+          {milliseconds}
+        </span>
       </div>
       <button type="button" className="btn btn-primary py-1" onClick={handleTimerChange}>
         {timerRunning ? 'Stop' : 'Start'}
