@@ -9,7 +9,7 @@ const App = () => {
     <div
       className="container ml-3 my-3 "
       style={{
-        maxWidth: '375px',
+        maxWidth: '350px',
         backgroundColor: '#f7f9fc',
         borderRadius: '10px',
       }}

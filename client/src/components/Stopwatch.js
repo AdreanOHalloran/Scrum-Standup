@@ -54,7 +54,7 @@ export const Stopwatch = ({
         {timerRunning ? 'Stop' : 'Start'}
       </button>
       {elapsedTime === 0 ? null : (
-        <button type="button" className="btn btn-primary py-1" onClick={() => handleRestart()}>
+        <button type="button" className="btn btn-primary py-1 ml-2" onClick={() => handleRestart()}>
           Reset
         </button>
       )}

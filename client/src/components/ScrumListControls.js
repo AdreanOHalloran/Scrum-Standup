@@ -11,7 +11,7 @@ export const ScrumListControls = ({ shuffleTMs, getFreshList }) => {
         Fresh List
       </button>
       <Link to="/add-remove-form" className="btn btn-primary float-right">
-        Add/Remove TMs
+        <i className="fa fa-minus fa-m"></i> / <i className="fa fa-plus fa-m"></i> TMs
       </Link>
     </div>
   );

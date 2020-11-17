@@ -83,7 +83,7 @@ export const AddRemoveForm = () => {
           </button>
         </div>
       </form>
-      <ul className="list-group list-group-flush">
+      <ul className="list-group list-group-flush" style={{ fontSize: '1.1rem' }}>
         {backendTMS ? (
           backendTMS.map((tm) => {
             return (
