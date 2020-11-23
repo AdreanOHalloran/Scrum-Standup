@@ -6,6 +6,10 @@ const TeamMemberSchema = new mongoose.Schema({
     trim: true,
     required: [true, 'Add some text'],
   },
+  team: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('TeamMember', TeamMemberSchema);

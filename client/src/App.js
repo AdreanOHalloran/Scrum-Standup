@@ -18,7 +18,9 @@ const App = () => {
       <Router>
         <Switch>
           <Route exact path="/" component={DailyScrumPage} />
-          <Route path="/add-remove-form" component={AddRemoveForm} />
+          <Route exact path="/add-remove-form" component={AddRemoveForm} />
+          <Route exact path="/:teamId" component={DailyScrumPage} />
+          <Route exact path="/:teamId/add-remove-form" component={AddRemoveForm} />
         </Switch>
       </Router>
     </div>

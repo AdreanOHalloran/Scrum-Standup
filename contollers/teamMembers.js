@@ -21,13 +21,13 @@ exports.getTeamMembers = async (req, res, next) => {
 };
 
 // @desc    Add a team member
-// @route   POST /api/v1/teamMembers
+// @route   POST /api/v1/teamMembers/:team
 // @access  Public
 exports.addTeamMember = async (req, res, next) => {
   try {
-    const { name } = req.body;
-
-    const teamMember = await TeamMember.create(req.body);
+    const team = req.params;
+    const name = req.body;
+    const teamMember = await TeamMember.create({ ...name, ...team });
 
     return res.status(201).json({
       success: true,

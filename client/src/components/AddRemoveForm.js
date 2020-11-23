@@ -1,26 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../UI/LoadingSpinner';
 
 export const AddRemoveForm = () => {
+  const { teamId } = useParams();
+
+  let history = useHistory();
   const [backendTMS, setBackendTMS] = useState();
   const [inputValue, setInputValue] = useState('');
   const [formError, setFormError] = useState(false);
 
   useEffect(() => {
     fetchData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamId]);
 
   const fetchData = async () => {
     const request = await fetch('/api/v1/teamMembers');
     const data = await request.json();
-    const TMS = data.data;
-    const TMsSorted = TMS.sort((a, b) => {
+    let TMS = data.data;
+    if (teamId) {
+      TMS = TMS.filter((tm) => tm.team === teamId);
+    }
+    TMS = TMS.sort((a, b) => {
       const nameA = a.name.toLowerCase();
       const nameB = b.name.toLowerCase();
       return nameA > nameB ? 1 : -1;
     });
-    setBackendTMS(TMsSorted);
+    setBackendTMS(TMS);
   };
 
   const handleDeleteTMBackend = async (id) => {
@@ -44,13 +51,13 @@ export const AddRemoveForm = () => {
 
     const config = {
       method: 'POST',
-      body: JSON.stringify({ name: inputValue }),
+      body: JSON.stringify({ name: inputValue, team: teamId ? teamId : null }),
       headers: {
         'Content-Type': 'application/json',
       },
     };
     try {
-      const response = await fetch(`/api/v1/teamMembers`, config);
+      const response = await fetch(`/api/v1/teamMembers/${teamId}`, config);
       const data = response.json();
       setInputValue('');
       setFormError(false);
@@ -99,9 +106,9 @@ export const AddRemoveForm = () => {
           <LoadingSpinner />
         )}
       </ul>
-      <Link to="/" className="btn btn-primary mt-3">
+      <button className="btn btn-primary mt-3" onClick={() => history.goBack()}>
         Back
-      </Link>
+      </button>
     </div>
   );
 };

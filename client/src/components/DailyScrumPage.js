@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Stopwatch } from './Stopwatch';
 import { ScrumList } from './ScrumList';
 import { ScrumListControls } from './ScrumListControls';
 
 export const DailyScrumPage = () => {
+  const { teamId } = useParams();
+
   useEffect(() => {
     getTMs();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamId]);
 
   const getTMs = async () => {
     const request = await fetch('/api/v1/teamMembers');
     const data = await request.json();
-    const TMS = data.data.map((tm) => tm.name).sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
+    let TMS = data.data;
+    if (teamId) {
+      TMS = TMS.filter((tm) => tm.team === teamId);
+    }
+    TMS = TMS.map((tm) => tm.name).sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
     setTeamMembers(TMS);
   };
 
