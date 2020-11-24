@@ -16,7 +16,7 @@ export const ScrumListControls = ({ shuffleTMs, getFreshList }) => {
         </button>
         <button
           onClick={() => {
-            history.push(`${teamId ? teamId : ''}/add-remove-form`);
+            history.push(`add-remove-form/${teamId ? teamId : ''}`);
           }}
           className="btn btn-primary float-right"
         >

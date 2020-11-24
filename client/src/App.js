@@ -20,7 +20,7 @@ const App = () => {
           <Route exact path="/" component={DailyScrumPage} />
           <Route exact path="/add-remove-form" component={AddRemoveForm} />
           <Route exact path="/:teamId" component={DailyScrumPage} />
-          <Route exact path="/:teamId/add-remove-form" component={AddRemoveForm} />
+          <Route path="/add-remove-form/:teamId" component={AddRemoveForm} />
         </Switch>
       </Router>
     </div>

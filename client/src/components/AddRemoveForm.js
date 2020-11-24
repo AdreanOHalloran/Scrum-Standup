@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { LoadingSpinner } from '../UI/LoadingSpinner';
+import { TeamSelect } from './TeamSelect';
 
 export const AddRemoveForm = () => {
   const { teamId } = useParams();
@@ -106,9 +107,10 @@ export const AddRemoveForm = () => {
           <LoadingSpinner />
         )}
       </ul>
-      <button className="btn btn-primary mt-3" onClick={() => history.goBack()}>
+      <button className="btn btn-primary my-3" onClick={() => history.goBack()}>
         Back
       </button>
+      <TeamSelect />
     </div>
   );
 };
