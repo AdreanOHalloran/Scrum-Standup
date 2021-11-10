@@ -11,45 +11,45 @@ export const TeamSelect = () => {
         <button
           type="button"
           onClick={() => {
-            history.push('/client-experience');
+            history.push('/verification-and-fraud');
           }}
           className={`btn btn-link px-0 shadow-none text-decoration-none`}
-          style={teamId && teamId === 'client-experience' ? styles : null}
+          style={teamId && teamId === 'verification-and-fraud' ? styles : null}
         >
-          Client Experience
+          Verification and Fraud
         </button>
 
         <button
           type="button"
           onClick={() => {
-            history.push('/capital-markets');
+            history.push('/credit-capital-markets');
           }}
           className={`btn btn-link px-0 shadow-none text-decoration-none`}
-          style={teamId && teamId === 'capital-markets' ? styles : null}
+          style={teamId && teamId === 'credit-capital-markets' ? styles : null}
         >
-          Captial Markets
+          Credit & Capital Markets
         </button>
       </div>
       <div className="pb-1 d-flex justify-content-between">
         <button
           type="button"
           onClick={() => {
-            history.push('/execution-fraud-servicing');
+            history.push('/subsystem-enabling');
           }}
           className={`btn btn-link px-0 shadow-none text-decoration-none`}
-          style={teamId && teamId === 'execution-fraud-servicing' ? styles : null}
+          style={teamId && teamId === 'subsystem-enabling' ? styles : null}
         >
-          Execution Fraud Servicing
+          Subsystem/Enabling
         </button>
         <button
           type="button"
           onClick={() => {
-            history.push('/platform');
+            history.push('/personal-loans');
           }}
           className={`btn btn-link px-0 shadow-none text-decoration-none`}
-          style={teamId && teamId === 'platform' ? styles : null}
+          style={teamId && teamId === 'personal-loans' ? styles : null}
         >
-          Platform
+          Personal Loans
         </button>
       </div>
       <div className="pb-3 d-flex justify-content-around">
