@@ -4,6 +4,6 @@ const { getTeamMembers, addTeamMember, deleteTeamMember } = require('../contolle
 
 router.route('/').get(getTeamMembers);
 router.route('/:team').post(addTeamMember);
-router.route('/:id').delete(deleteTeamMember);
+router.route('/:team/:id').delete(deleteTeamMember);
 
 module.exports = router;

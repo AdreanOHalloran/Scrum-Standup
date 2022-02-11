@@ -17,9 +17,10 @@ export const DailyScrumPage = () => {
     const data = await request.json();
     let TMS = data.data;
     if (teamId) {
-      TMS = TMS.filter((tm) => tm.team === teamId);
+      TMS = TMS.filter((tm) => tm.teams.indexOf(teamId) >= 0);
     }
-    TMS = TMS.map((tm) => tm.name).sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
+    TMS = Array.from(new Set(TMS.map((tm) => tm.name)))
+      .sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
     setTeamMembers(TMS);
   };
 

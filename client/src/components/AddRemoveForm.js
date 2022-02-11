@@ -21,8 +21,9 @@ export const AddRemoveForm = () => {
     const data = await request.json();
     let TMS = data.data;
     if (teamId) {
-      TMS = TMS.filter((tm) => tm.team === teamId);
+      TMS = TMS.filter((tm) => tm.teams.indexOf(teamId) >= 0);
     }
+    TMS = Array.from(new Set(TMS));
     TMS = TMS.sort((a, b) => {
       const nameA = a.name.toLowerCase();
       const nameB = b.name.toLowerCase();
@@ -33,7 +34,7 @@ export const AddRemoveForm = () => {
 
   const handleDeleteTMBackend = async (id) => {
     try {
-      await fetch(`/api/v1/teamMembers/${id}`, {
+      await fetch(`/api/v1/teamMembers/${teamId}/${id}`, {
         method: 'DELETE',
       });
       fetchData();

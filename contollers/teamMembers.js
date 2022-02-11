@@ -25,10 +25,14 @@ exports.getTeamMembers = async (req, res, next) => {
 // @access  Public
 exports.addTeamMember = async (req, res, next) => {
   try {
-    const team = req.params;
-    const name = req.body;
-    const teamMember = await TeamMember.create({ ...name, ...team });
-
+    const teams = req.body.team;
+    const name = req.body.name;
+    const teamMember = await TeamMember.update(
+      { name },
+      { $addToSet: { teams } },
+      { upsert: true }
+    );
+      
     return res.status(201).json({
       success: true,
       data: teamMember,
@@ -50,11 +54,13 @@ exports.addTeamMember = async (req, res, next) => {
 };
 
 // @desc    Delete a team member
-// @route   DELETE /api/v1/teamMembers/:id
+// @route   DELETE /api/v1/teamMembers/:team/:id
 // @access  Public
 exports.deleteTeamMember = async (req, res, next) => {
   try {
+    const team = req.params.team;
     const teamMember = await TeamMember.findById(req.params.id);
+    
     if (!teamMember) {
       return res.status(404).json({
         sucess: false,
@@ -62,7 +68,15 @@ exports.deleteTeamMember = async (req, res, next) => {
       });
     }
 
-    await teamMember.remove();
+    if (teamMember.teams.length < 2 || team === 'undefined') {
+      await teamMember.remove();
+    }
+    else {
+      await TeamMember.update(
+        { _id: teamMember._id },
+        { $pull: { teams: team }}
+      );
+    }
     return res.status(200).json({
       success: true,
       data: {},
