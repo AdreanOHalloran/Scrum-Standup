@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AddRemoveForm } from './components/AddRemoveForm';
 import { DailyScrumPage } from './components/DailyScrumPage';
+import { WholeTeamList } from './components/WholeTeamList';
 import { Header } from './components/Header';
 
 const App = () => {
@@ -17,7 +18,7 @@ const App = () => {
       <Header />
       <Router>
         <Switch>
-          <Route exact path="/" component={DailyScrumPage} />
+          <Route exact path="/" component={WholeTeamList} />
           <Route exact path="/add-remove-form" component={AddRemoveForm} />
           <Route exact path="/:teamId" component={DailyScrumPage} />
           <Route path="/add-remove-form/:teamId" component={AddRemoveForm} />

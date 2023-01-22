@@ -7,11 +7,16 @@ export const ScrumTM = ({ standupName, handleTMClick, activeTM, removeTM }) => {
   }
 
   return (
-    <li className={`list-group-item list-group-item-${active} py-0`} onClick={() => handleTMClick(standupName)}>
+    <li
+      className={`list-group-item list-group-item-${active} py-0`}
+      onClick={handleTMClick ? () => handleTMClick(standupName) : undefined}
+    >
       {standupName}
-      <button type="button" className="close" onClick={(e) => removeTM(e, standupName)} aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+      {removeTM && (
+        <button type="button" className="close" onClick={(e) => removeTM(e, standupName)} aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      )}
     </li>
   );
 };
